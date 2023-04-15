@@ -1,26 +1,19 @@
 import { Request, Response } from "express";
-import { CustomerSchema } from "../models/customer.model";
+import CustomerModel from "../models/customer.model";
 
-class CustomerController {
-  public async getCustomer(req: Request, res: Response) {
-    res.json({
-      ok: true,
-      msg: "Hola",
-    });
-  }
-
-  public async createCustomer(req: Request, res: Response) {
-    console.log("body", req.body);
-    const customer = new CustomerSchema(req.body);
-
-    // Save customer
-    await customer.save();
+export const getCustomers = async (req: Request, res: Response) => {
+  try {
+    const customers = await CustomerModel.find();
 
     res.json({
       ok: true,
       msg: "Hola",
+      customers,
+    });
+  } catch (error) {
+    res.status(500).json({
+      ok: false,
+      error,
     });
   }
-}
-
-export const customerController = new CustomerController();
+};
