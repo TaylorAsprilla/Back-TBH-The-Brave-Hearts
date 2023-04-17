@@ -1,7 +1,7 @@
 import express, { Application } from "express";
 import cors from "cors";
 import path from "path";
-import { dbConenection } from "../database/config";
+import { dbConnection } from "./database/connection";
 import customerRoutes from "./routes/customer.routes";
 import usersRoutes from "./routes/users.routes";
 import authRoutes from "./routes/auth.routes";
@@ -20,7 +20,7 @@ class Server {
     this.port = process.env.PORT || "3000";
 
     // Base de datos
-    dbConenection();
+    dbConnection();
 
     // Métodos Iniciales
     // this.dbConenection();
