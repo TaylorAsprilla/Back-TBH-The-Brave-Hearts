@@ -6,9 +6,10 @@ interface IUser extends Document {
   password: string;
   img?: string;
   role: string;
+  createdAt?: Date;
 }
 
-const UserSchema: Schema = new Schema({
+const UserSchema: Schema = new Schema<IUser>({
   name: {
     type: String,
     required: true,

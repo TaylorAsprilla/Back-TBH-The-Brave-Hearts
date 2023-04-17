@@ -1,8 +1,46 @@
+/*
+router: /api/customers
+*/
 import { Router } from "express";
-import { getCustomers } from "../controllers/customer.controller";
+import {
+  createCustomers,
+  deleteCustomers,
+  getCustomers,
+  updateCustomers,
+} from "../controllers/customer.controller";
+import validateJWT from "../middlewares/validate-jwt";
+import { body } from "express-validator";
+import validateFields from "../middlewares/validate-fields";
 
 const router = Router();
 
 router.get("/", getCustomers);
+router.post(
+  "/",
+  validateJWT,
+  [
+    body("email", "Email is required").not().isEmpty().isEmail(),
+    validateFields,
+  ],
+  createCustomers
+);
+router.put(
+  "/:id",
+  validateJWT,
+  [
+    body("email", "Email is required").not().isEmpty().isEmail(),
+    validateFields,
+  ],
+  updateCustomers
+);
+router.delete(
+  "/:id",
+  validateJWT,
+  [
+    body("email", "Email is required").not().isEmpty().isEmail(),
+    validateFields,
+  ],
+  deleteCustomers
+);
 
 export default router;

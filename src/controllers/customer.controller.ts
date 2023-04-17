@@ -17,3 +17,54 @@ export const getCustomers = async (req: Request, res: Response) => {
     });
   }
 };
+
+export const createCustomers = async (req: Request, res: Response) => {
+  try {
+    const customers = await CustomerModel.find();
+
+    res.json({
+      ok: true,
+      msg: "Hola",
+      customers,
+    });
+  } catch (error) {
+    res.status(500).json({
+      ok: false,
+      error,
+    });
+  }
+};
+
+export const updateCustomers = async (req: Request, res: Response) => {
+  try {
+    const customers = await CustomerModel.find();
+
+    res.json({
+      ok: true,
+      msg: "Hola",
+      customers,
+    });
+  } catch (error) {
+    res.status(500).json({
+      ok: false,
+      error,
+    });
+  }
+};
+
+export const deleteCustomers = async (req: Request, res: Response) => {
+  try {
+    const customers = await CustomerModel.find();
+
+    res.json({
+      ok: true,
+      msg: "Hola",
+      customers,
+    });
+  } catch (error) {
+    res.status(500).json({
+      ok: false,
+      error,
+    });
+  }
+};
