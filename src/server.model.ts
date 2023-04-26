@@ -5,6 +5,7 @@ import { dbConnection } from "./database/connection";
 import customerRoutes from "./routes/customer.routes";
 import usersRoutes from "./routes/users.routes";
 import authRoutes from "./routes/auth.routes";
+import prospectRoutes from "./routes/prospect.routes";
 
 class Server {
   private app: Application;
@@ -13,6 +14,7 @@ class Server {
     login: "/api/login",
     users: "/api/users",
     customers: "/api/customers",
+    prospects: "/api/prospects",
   };
 
   constructor() {
@@ -49,6 +51,7 @@ class Server {
     this.app.use(this.apiPaths.login, authRoutes);
     this.app.use(this.apiPaths.users, usersRoutes);
     this.app.use(this.apiPaths.customers, customerRoutes);
+    this.app.use(this.apiPaths.prospects, prospectRoutes);
   }
 
   listen(): void {

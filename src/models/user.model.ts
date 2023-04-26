@@ -6,6 +6,7 @@ interface IUser extends Document {
   password: string;
   img?: string;
   role: string;
+  active?: boolean;
   createdAt?: Date;
 }
 
@@ -31,6 +32,7 @@ const UserSchema: Schema = new Schema<IUser>({
     required: true,
     default: "USER_ROLE",
   },
+  active: { type: Boolean, required: true, default: true },
   createdAt: {
     type: Date,
     default: Date.now,

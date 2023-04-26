@@ -133,24 +133,34 @@ export const updateUser = async (req: Request, res: Response) => {
 };
 
 export const deleteUser = async (req: Request, res: Response) => {
-  //TODO Falta completar
-  const uid = req.params.id;
+  const id = req.params.id;
 
   try {
-    const userDB = await UserModel.findById(uid);
-    const { password, email, ...fields } = req.body;
+    const user = await UserModel.findById(id);
 
-    return res.status(201).json({
+    if (!user) {
+      res.status(404).json({
+        ok: false,
+        msg: `user not found with id ${id}`,
+      });
+    }
+
+    const deleteUser = await UserModel.findByIdAndUpdate(
+      id,
+      { active: false },
+      { new: true }
+    );
+
+    res.json({
       ok: true,
-      msg: "Updated user",
-      uid,
+      msg: "User customer",
+      user: deleteUser,
     });
   } catch (error) {
-    console.error(error);
     res.status(500).json({
       ok: false,
       error,
-      msg: "Failed to update user",
+      msg: "Talk to the administrator",
     });
   }
 };

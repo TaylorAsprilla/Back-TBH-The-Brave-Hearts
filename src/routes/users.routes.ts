@@ -5,6 +5,7 @@ router: /api/users
 import { Router } from "express";
 import {
   createUser,
+  deleteUser,
   getUsers,
   updateUser,
 } from "../controllers/users.controller";
@@ -37,5 +38,6 @@ router.put(
   ],
   updateUser
 );
+router.delete("/:id", validateJWT, deleteUser);
 
 export default router;

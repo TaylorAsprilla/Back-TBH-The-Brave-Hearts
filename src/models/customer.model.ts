@@ -106,6 +106,8 @@ interface ICustomer {
     fieldTrainingAgent?: string;
     mdBase?: string;
   };
+  active?: boolean;
+  createdAt?: Date;
   user: Types.ObjectId;
 }
 
@@ -215,10 +217,15 @@ export const CustomerSchema: Schema = new Schema<ICustomer>({
     fieldTrainingAgent: { type: String },
     mdBase: { type: String },
   },
-
+  active: { type: Boolean, required: true, default: true },
+  createdAt: {
+    type: Date,
+    default: Date.now,
+  },
   user: {
     type: Schema.Types.ObjectId,
     ref: "User",
+    required: true,
   },
 });
 

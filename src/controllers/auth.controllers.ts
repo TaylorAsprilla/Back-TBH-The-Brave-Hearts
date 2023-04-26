@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import bcrypt from "bcryptjs";
 import UserModel from "../models/user.model";
 import generateJWT from "../helpers/jwt";
+import { CustomRequest } from "../middlewares/validate-jwt";
 
 export const login = async (req: Request, res: Response) => {
   const { email, password } = req.body;
@@ -41,4 +42,20 @@ export const login = async (req: Request, res: Response) => {
       msg: "Login error",
     });
   }
+};
+
+export const renewToken = async (req: CustomRequest, res: Response) => {
+  const uid = req.uid;
+
+  // make sure uid is a string
+  if (typeof uid === "undefined") {
+    throw new Error("uid not provided");
+  }
+
+  // generate Token
+  const token = await generateJWT(uid.toString());
+  res.json({
+    ok: true,
+    token,
+  });
 };
