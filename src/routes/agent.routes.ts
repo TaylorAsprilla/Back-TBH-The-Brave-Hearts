@@ -1,31 +1,33 @@
 /*
-router: /api/users
+router: /api/agents
 */
 
 import { Router } from "express";
 import {
-  createUser,
-  deleteUser,
-  getUsers,
-  updateUser,
-} from "../controllers/users.controller";
+  createAgent,
+  deleteAgent,
+  getAgents,
+  updateAgent,
+} from "../controllers/agents.controller";
 import { body } from "express-validator";
 import validateFields from "../middlewares/validate-fields";
 import validateJWT from "../middlewares/validate-jwt";
 
 const router = Router();
 
-router.get("/", validateJWT, getUsers);
+router.get("/", validateJWT, getAgents);
 router.post(
   "/",
-  validateJWT,
+  // validateJWT,
   [
-    body("name", "Name is required").not().isEmpty(),
+    body("firstName", "First Name is required").not().isEmpty(),
+    body("lastName", "Last name is required").not().isEmpty(),
+    body("state", "State is required").not().isEmpty(),
     body("email", "Email is required").not().isEmpty().isEmail(),
     body("password", "Password is required").not().isEmpty(),
     validateFields,
   ],
-  createUser
+  createAgent
 );
 router.put(
   "/:id",
@@ -36,8 +38,8 @@ router.put(
     body("role", "Role is required").not().isEmpty(),
     validateFields,
   ],
-  updateUser
+  updateAgent
 );
-router.delete("/:id", validateJWT, deleteUser);
+router.delete("/:id", validateJWT, deleteAgent);
 
 export default router;

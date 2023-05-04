@@ -7,7 +7,7 @@ import {
   deleteCustomers,
   getCustomers,
   updateCustomers,
-} from "../controllers/customer.controller";
+} from "../controllers/customers.controller";
 import validateJWT from "../middlewares/validate-jwt";
 import { body } from "express-validator";
 import validateFields from "../middlewares/validate-fields";

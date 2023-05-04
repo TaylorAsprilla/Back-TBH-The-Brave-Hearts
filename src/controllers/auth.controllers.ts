@@ -1,24 +1,24 @@
 import { Request, Response } from "express";
 import bcrypt from "bcryptjs";
-import UserModel from "../models/user.model";
+import AgentModel from "../models/agent.model";
 import generateJWT from "../helpers/jwt";
 import { CustomRequest } from "../middlewares/validate-jwt";
 
 export const login = async (req: Request, res: Response) => {
-  const { email, password } = req.body;
+  const { agentCode, password } = req.body;
   try {
-    // Verify email
-    const userDB = await UserModel.findOne({ email });
+    // Verify Agent Code
+    const agentDB = await AgentModel.findOne({ agentCode: agentCode });
 
-    if (!userDB) {
+    if (!agentDB) {
       return res.status(404).json({
         ok: false,
-        msg: "Invalid email",
+        msg: "Invalid Agent Code",
       });
     }
 
     //Verify password
-    const validPassword = bcrypt.compareSync(password, userDB.password);
+    const validPassword = bcrypt.compareSync(password, agentDB.password);
     if (!validPassword) {
       return res.status(400).json({
         ok: false,
@@ -27,12 +27,12 @@ export const login = async (req: Request, res: Response) => {
     }
 
     // generate Token
-    const token = await generateJWT(userDB.id, userDB.email);
+    const token = await generateJWT(agentDB.id, agentDB.email);
 
     res.json({
       ok: true,
       token,
-      user: userDB,
+      user: agentDB,
     });
   } catch (error) {
     console.error(error);
@@ -47,15 +47,18 @@ export const login = async (req: Request, res: Response) => {
 export const renewToken = async (req: CustomRequest, res: Response) => {
   const uid = req.uid;
 
-  // make sure uid is a string
+  // // make sure uid is a string
   if (typeof uid === "undefined") {
     throw new Error("uid not provided");
   }
+
+  const agent = await AgentModel.findById(uid);
 
   // generate Token
   const token = await generateJWT(uid.toString());
   res.json({
     ok: true,
     token,
+    agent,
   });
 };

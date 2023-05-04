@@ -11,7 +11,7 @@ import {
   deleteProspects,
   getProspects,
   updateProspects,
-} from "../controllers/prospect.controllers";
+} from "../controllers/prospects.controllers";
 
 const router = Router();
 

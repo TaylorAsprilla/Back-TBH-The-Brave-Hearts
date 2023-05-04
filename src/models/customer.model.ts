@@ -108,7 +108,7 @@ interface ICustomer {
   };
   active?: boolean;
   createdAt?: Date;
-  user: Types.ObjectId;
+  agent: Types.ObjectId;
 }
 
 export const CustomerSchema: Schema = new Schema<ICustomer>({
@@ -222,9 +222,9 @@ export const CustomerSchema: Schema = new Schema<ICustomer>({
     type: Date,
     default: Date.now,
   },
-  user: {
+  agent: {
     type: Schema.Types.ObjectId,
-    ref: "User",
+    ref: "Agent",
     required: true,
   },
 });

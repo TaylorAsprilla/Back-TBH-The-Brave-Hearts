@@ -22,7 +22,7 @@ interface IProspect {
   observations?: string;
   active?: boolean;
   createdAt?: Date;
-  user: Types.ObjectId;
+  agent: Types.ObjectId;
 }
 
 export const ProspectSchema: Schema = new Schema<IProspect>({
@@ -50,7 +50,11 @@ export const ProspectSchema: Schema = new Schema<IProspect>({
     type: Date,
     default: Date.now,
   },
-  user: { type: Schema.Types.ObjectId, ref: "User", required: true },
+  agent: {
+    type: Schema.Types.ObjectId,
+    ref: "Agent",
+    required: true,
+  },
 });
 
 ProspectSchema.method("toJSON", function () {

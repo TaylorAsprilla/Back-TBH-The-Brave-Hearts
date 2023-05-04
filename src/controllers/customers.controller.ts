@@ -37,7 +37,7 @@ export const createCustomers = async (req: CustomRequest, res: Response) => {
 
     // Create the customer
     const newCustomer = new CustomerModel({
-      user: uid,
+      agent: uid,
       ...body,
     });
 
@@ -58,7 +58,7 @@ export const createCustomers = async (req: CustomRequest, res: Response) => {
 
 export const updateCustomers = async (req: CustomRequest, res: Response) => {
   const id = req.params.id;
-  const idUser = req.uid;
+  const idAgent = req.uid;
   try {
     const customer = await CustomerModel.findById(id);
 
@@ -71,7 +71,7 @@ export const updateCustomers = async (req: CustomRequest, res: Response) => {
 
     const changeCustomer = {
       ...req.body,
-      user: idUser,
+      user: idAgent,
     };
 
     const updatedCustomer = await CustomerModel.findByIdAndUpdate(
