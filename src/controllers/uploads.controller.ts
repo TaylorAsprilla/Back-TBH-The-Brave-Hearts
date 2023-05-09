@@ -1,31 +1,30 @@
 import { Request, Response } from "express";
 import { UploadedFile } from "express-fileupload";
 import { v4 as uuidv4 } from "uuid";
+import updateImage from "../helpers/update-image";
 
 export async function fileUpload(req: Request, res: Response) {
   const type = req.params.type;
   const id = req.params.id;
 
   const validTypes = ["customers", "agents"];
-  const validExtensions = [
-    "png",
-    "jpg",
-    "jpeg",
-    "pdf",
-    "PDF",
-    "PNG",
-    "JPEG",
-    "JPG",
-  ];
+  const validExtensions = ["png", "jpg", "jpeg", "pdf"];
 
   if (!req.files || Object.keys(req.files).length === 0) {
     return res.status(400).json({ ok: false, msg: "No files were uploaded." });
   }
 
-  const file = req.files.image as UploadedFile;
+  const file = req.files?.image as UploadedFile;
+
+  if (!file) {
+    return res.status(400).json({
+      ok: false,
+      msg: "No file was uploaded.",
+    });
+  }
 
   const cutName = file.name.split(".");
-  const fileExtension = cutName[cutName.length - 1];
+  const fileExtension = cutName[cutName.length - 1].toLowerCase(); // Convertir la extensión a minúsculas
 
   if (!validExtensions.includes(fileExtension)) {
     return res.status(400).json({
@@ -48,13 +47,13 @@ export async function fileUpload(req: Request, res: Response) {
   try {
     await file.mv(path);
 
-    //update database
-    // updateImage();
+    // Actualizar la base de datos
+    await updateImage(id, type, fileName);
 
     res.json({
       ok: true,
       fileName,
-      msg: " File uploaded!",
+      msg: "File uploaded!",
     });
   } catch (err) {
     console.log(err);

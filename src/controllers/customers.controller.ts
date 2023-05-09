@@ -4,7 +4,10 @@ import { CustomRequest } from "../middlewares/validate-jwt";
 
 export const getCustomers = async (req: Request, res: Response) => {
   try {
-    const customers = await CustomerModel.find().populate("user", "name email");
+    const customers = await CustomerModel.find().populate(
+      "agent",
+      "name email"
+    );
 
     res.json({
       ok: true,
@@ -71,7 +74,7 @@ export const updateCustomers = async (req: CustomRequest, res: Response) => {
 
     const changeCustomer = {
       ...req.body,
-      user: idAgent,
+      agent: idAgent,
     };
 
     const updatedCustomer = await CustomerModel.findByIdAndUpdate(

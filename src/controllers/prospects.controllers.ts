@@ -4,7 +4,10 @@ import { CustomRequest } from "../middlewares/validate-jwt";
 
 export const getProspects = async (req: Request, res: Response) => {
   try {
-    const prospects = await ProspectModel.find().populate("user", "name email");
+    const prospects = await ProspectModel.find().populate(
+      "agent",
+      "name email"
+    );
 
     res.json({
       ok: true,
@@ -35,7 +38,7 @@ export const createProspects = async (req: CustomRequest, res: Response) => {
 
     // Create the prospect
     const newProspect = new ProspectModel({
-      user: uid,
+      agent: uid,
       ...body,
     });
 
@@ -56,7 +59,7 @@ export const createProspects = async (req: CustomRequest, res: Response) => {
 
 export const updateProspects = async (req: CustomRequest, res: Response) => {
   const id = req.params.id;
-  const idUser = req.uid;
+  const idAgent = req.uid;
   try {
     const prospect = await ProspectModel.findById(id);
 
@@ -69,7 +72,7 @@ export const updateProspects = async (req: CustomRequest, res: Response) => {
 
     const changeProspect = {
       ...req.body,
-      user: idUser,
+      agent: idAgent,
     };
 
     const updatedProspect = await ProspectModel.findByIdAndUpdate(

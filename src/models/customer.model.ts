@@ -106,6 +106,7 @@ interface ICustomer {
     fieldTrainingAgent?: string;
     mdBase?: string;
   };
+  img?: string;
   active?: boolean;
   createdAt?: Date;
   agent: Types.ObjectId;
@@ -216,6 +217,9 @@ export const CustomerSchema: Schema = new Schema<ICustomer>({
     percentage2: { type: String },
     fieldTrainingAgent: { type: String },
     mdBase: { type: String },
+  },
+  img: {
+    type: String,
   },
   active: { type: Boolean, required: true, default: true },
   createdAt: {

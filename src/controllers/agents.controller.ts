@@ -4,12 +4,18 @@ import AgentModel from "../models/agent.model";
 import { CustomRequest } from "../middlewares/validate-jwt";
 
 export const getAgents = async (req: Request, res: Response) => {
+  const desde = Number(req.query.desde) || 0;
+
   try {
-    const agents = await AgentModel.find();
+    const [agents, total] = await Promise.all([
+      AgentModel.find().skip(desde).limit(10),
+      AgentModel.countDocuments(),
+    ]);
 
     res.json({
       ok: true,
-      agents: agents,
+      agents,
+      total,
     });
   } catch (error) {
     res.status(500).json({
@@ -72,9 +78,10 @@ export const createAgent = async (req: CustomRequest, res: Response) => {
         msg: "Email already in agent.",
       });
     }
-    //  agent: idAgent,
+
     // Create the agent
     const newAgent = new AgentModel({
+      agent: idAgent,
       ...body,
     });
 
@@ -139,7 +146,7 @@ export const updateAgent = async (req: Request, res: Response) => {
     res.status(500).json({
       ok: false,
       error,
-      msg: "Failed to update user",
+      msg: "Failed to update agent",
     });
   }
 };

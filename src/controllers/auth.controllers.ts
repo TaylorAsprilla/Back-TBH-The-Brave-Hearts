@@ -32,7 +32,7 @@ export const login = async (req: Request, res: Response) => {
     res.json({
       ok: true,
       token,
-      user: agentDB,
+      agent: agentDB,
     });
   } catch (error) {
     console.error(error);
