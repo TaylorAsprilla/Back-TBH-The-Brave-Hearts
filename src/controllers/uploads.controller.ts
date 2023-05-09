@@ -2,6 +2,11 @@ import { Request, Response } from "express";
 import { UploadedFile } from "express-fileupload";
 import { v4 as uuidv4 } from "uuid";
 import updateImage from "../helpers/update-image";
+import path from "path";
+import fs from "fs";
+import config from "../config/config";
+
+const environment = config[process.env.ENVIRONMENT || "development"];
 
 export async function fileUpload(req: Request, res: Response) {
   const type = req.params.type;
@@ -62,4 +67,18 @@ export async function fileUpload(req: Request, res: Response) {
       msg: "Error moving file",
     });
   }
+}
+
+export async function returnFile(req: Request, res: Response) {
+  const type = req.params.type;
+  const fileName = req.params.file;
+
+  const defaultFilePath = path.join(__dirname, environment.defaultFilePath);
+  let filePath = path.join(__dirname, `../uploads/${type}/${fileName}`);
+
+  if (!fs.existsSync(filePath)) {
+    filePath = defaultFilePath;
+  }
+
+  res.sendFile(filePath);
 }

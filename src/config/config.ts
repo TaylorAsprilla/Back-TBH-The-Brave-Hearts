@@ -12,6 +12,7 @@ const config: any = {
       password: process.env.EMAIL_PASSWORD,
     },
     jwtSecret: process.env.JWT_SECRET,
+    defaultFilePath: "../uploads/no-file.jpg",
   },
   production: {
     database: {
@@ -24,6 +25,7 @@ const config: any = {
       password: process.env.EMAIL_PASSWORD,
     },
     jwtSecret: process.env.JWT_SECRET,
+    defaultFilePath: "../uploads/no-file.jpg",
   },
 };
 
