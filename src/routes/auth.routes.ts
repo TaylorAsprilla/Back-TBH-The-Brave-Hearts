@@ -1,10 +1,11 @@
 /*
-router: /api/auth
+router: /api/login
 */
 
 import { Router } from "express";
 import { body } from "express-validator";
-import { login } from "../controllers/auth.controllers";
+import { login, renewToken } from "../controllers/auth.controllers";
+import validateJWT from "../middlewares/validate-jwt";
 
 const router = Router();
 
@@ -16,5 +17,7 @@ router.post(
   ],
   login
 );
+
+router.get("/renew", validateJWT, renewToken);
 
 export default router;

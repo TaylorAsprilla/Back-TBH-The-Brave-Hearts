@@ -1,18 +1,22 @@
 import express, { Application } from "express";
 import cors from "cors";
 import path from "path";
-import { dbConenection } from "../database/config";
+import { dbConnection } from "./database/connection";
 import customerRoutes from "./routes/customer.routes";
-import usersRoutes from "./routes/users.routes";
+import agentRoutes from "./routes/agent.routes";
 import authRoutes from "./routes/auth.routes";
+import prospectRoutes from "./routes/prospect.routes";
+import uploadsRoutes from "./routes/uploads.routes";
 
 class Server {
   private app: Application;
   private port: string;
   private apiPaths = {
     login: "/api/login",
-    users: "/api/users",
+    agents: "/api/agents",
     customers: "/api/customers",
+    prospects: "/api/prospects",
+    uploads: "/api/uploads",
   };
 
   constructor() {
@@ -20,7 +24,7 @@ class Server {
     this.port = process.env.PORT || "3000";
 
     // Base de datos
-    dbConenection();
+    dbConnection();
 
     // Métodos Iniciales
     // this.dbConenection();
@@ -47,8 +51,10 @@ class Server {
   // Rutas
   routes(): void {
     this.app.use(this.apiPaths.login, authRoutes);
-    this.app.use(this.apiPaths.users, usersRoutes);
+    this.app.use(this.apiPaths.agents, agentRoutes);
     this.app.use(this.apiPaths.customers, customerRoutes);
+    this.app.use(this.apiPaths.prospects, prospectRoutes);
+    this.app.use(this.apiPaths.uploads, uploadsRoutes);
   }
 
   listen(): void {
