@@ -26,6 +26,23 @@ export const getAgents = async (req: Request, res: Response) => {
   }
 };
 
+export const getAllAgents = async (req: Request, res: Response) => {
+  try {
+    const agents = await AgentModel.find({});
+
+    res.json({
+      ok: true,
+      agents,
+    });
+  } catch (error) {
+    res.status(500).json({
+      ok: false,
+      error,
+      msg: "Error occurred while getting the agents.",
+    });
+  }
+};
+
 export const getAgent = async (req: Request, res: Response) => {
   try {
     const agentId = req.params.id;

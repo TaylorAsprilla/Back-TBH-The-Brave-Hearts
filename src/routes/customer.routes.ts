@@ -5,6 +5,7 @@ import { Router } from "express";
 import {
   createCustomers,
   deleteCustomers,
+  getAllCustomers,
   getCustomers,
   updateCustomers,
 } from "../controllers/customers.controller";
@@ -14,7 +15,8 @@ import validateFields from "../middlewares/validate-fields";
 
 const router = Router();
 
-router.get("/", getCustomers);
+router.get("/", validateJWT, getCustomers);
+router.get("/all", validateJWT, getAllCustomers);
 router.post(
   "/",
   validateJWT,

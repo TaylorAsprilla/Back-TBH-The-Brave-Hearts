@@ -12,6 +12,6 @@ const router = Router();
 router.use(expressFileUpload());
 
 router.put("/:type/:id", validateJWT, fileUpload);
-router.get("/:type/:file", validateJWT, returnFile);
+router.get("/:type/:file", returnFile);
 
 export default router;
