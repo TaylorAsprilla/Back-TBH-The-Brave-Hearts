@@ -22,6 +22,23 @@ export const getCustomers = async (req: Request, res: Response) => {
   }
 };
 
+export const getAllCustomers = async (req: Request, res: Response) => {
+  try {
+    const customers = await CustomerModel.find({});
+
+    res.json({
+      ok: true,
+      customers,
+    });
+  } catch (error) {
+    res.status(500).json({
+      ok: false,
+      error,
+      msg: "Error occurred while getting the customers.",
+    });
+  }
+};
+
 export const createCustomers = async (req: CustomRequest, res: Response) => {
   const body = req.body;
   const customerInput = body;
