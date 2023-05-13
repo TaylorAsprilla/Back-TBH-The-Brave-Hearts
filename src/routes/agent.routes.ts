@@ -39,7 +39,6 @@ router.put(
     body("lastName", "Last name is required").not().isEmpty(),
     body("state", "State is required").not().isEmpty(),
     body("email", "Email is required").not().isEmpty().isEmail(),
-    body("role", "Role is required").not().isEmpty(),
     validateFields,
   ],
   updateAgent

@@ -4,9 +4,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "tsc -w",
+    "build": "npm run create-upload-dir && npm run copy-assets && tsc -w",
     "start:dev": "nodemon dist/index.js",
-    "start": "node index.js"
+    "start": "node index.js",
+    "create-upload-dir": "mkdir dist\\src\\uploads",
+    "copy-assets": "xcopy /s /e /y src\\uploads dist\\src\\uploads"
   },
   "keywords": [],
   "author": "",
@@ -31,6 +33,8 @@
     "@types/jsonwebtoken": "^9.0.1",
     "@types/node": "^18.15.7",
     "@types/uuid": "^9.0.1",
+    "copyfiles": "^2.4.1",
+    "ncp": "^2.0.0",
     "nodemon": "^2.0.22",
     "tslint": "^6.1.3",
     "typescript": "^5.0.2"
