@@ -7,6 +7,7 @@ import agentRoutes from "./routes/agent.routes";
 import authRoutes from "./routes/auth.routes";
 import prospectRoutes from "./routes/prospect.routes";
 import uploadsRoutes from "./routes/uploads.routes";
+import statesRoutes from "./routes/state.routes";
 
 class Server {
   private app: Application;
@@ -17,6 +18,7 @@ class Server {
     customers: "/api/customers",
     prospects: "/api/prospects",
     uploads: "/api/uploads",
+    states: "/api/states",
   };
 
   constructor() {
@@ -55,6 +57,7 @@ class Server {
     this.app.use(this.apiPaths.customers, customerRoutes);
     this.app.use(this.apiPaths.prospects, prospectRoutes);
     this.app.use(this.apiPaths.uploads, uploadsRoutes);
+    this.app.use(this.apiPaths.states, statesRoutes);
   }
 
   listen(): void {

@@ -7,10 +7,12 @@ interface IAgent extends Document {
   city?: string;
   state: string;
   zip?: string;
+  dateBirth: Date;
   email: string;
   password: string;
   img?: string;
   role: string;
+  resetToken?: string;
   active?: boolean;
   createdAt?: Date;
   agent: Types.ObjectId;
@@ -40,6 +42,9 @@ const AgentSchema: Schema = new Schema<IAgent>({
   zip: {
     type: String,
   },
+  dateBirth: {
+    type: Date,
+  },
   email: {
     type: String,
     required: true,
@@ -56,6 +61,9 @@ const AgentSchema: Schema = new Schema<IAgent>({
     type: String,
     required: true,
     default: "USER_ROLE",
+  },
+  resetToken: {
+    type: String,
   },
   active: { type: Boolean, required: true, default: true },
   createdAt: {
