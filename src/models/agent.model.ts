@@ -1,4 +1,5 @@
-import { Model, Schema, Types, model } from "mongoose";
+import autoIncrement from "mongoose-auto-increment";
+import mongoose, { Document, Model, Schema, Types, model } from "mongoose";
 
 interface IAgent extends Document {
   agentCode: number;
@@ -7,20 +8,22 @@ interface IAgent extends Document {
   city?: string;
   state: string;
   zip?: string;
+  dateBirth: Date;
   email: string;
   password: string;
   img?: string;
   role: string;
+  resetToken?: string;
   active?: boolean;
   createdAt?: Date;
   agent: Types.ObjectId;
 }
 
-const AgentSchema: Schema = new Schema<IAgent>({
+const AgentSchema: Schema<IAgent> = new Schema<IAgent>({
   agentCode: {
     type: Number,
-    required: true,
     unique: true,
+    required: true,
   },
   firstName: {
     type: String,
@@ -40,6 +43,9 @@ const AgentSchema: Schema = new Schema<IAgent>({
   zip: {
     type: String,
   },
+  dateBirth: {
+    type: Date,
+  },
   email: {
     type: String,
     required: true,
@@ -56,6 +62,9 @@ const AgentSchema: Schema = new Schema<IAgent>({
     type: String,
     required: true,
     default: "USER_ROLE",
+  },
+  resetToken: {
+    type: String,
   },
   active: { type: Boolean, required: true, default: true },
   createdAt: {
@@ -76,4 +85,5 @@ AgentSchema.method("toJSON", function () {
 });
 
 const AgentModel: Model<IAgent> = model<IAgent>("Agent", AgentSchema);
+
 export default AgentModel;

@@ -1,7 +1,14 @@
+import fs from "fs";
 import { Request, Response } from "express";
 import bcrypt from "bcryptjs";
 import AgentModel from "../models/agent.model";
 import { CustomRequest } from "../middlewares/validate-jwt";
+import path from "path";
+import config from "../config/config";
+import sendEmail from "../helpers/email";
+import AppMessages from "../constants/messages.enum";
+
+const environment = config[process.env.ENVIRONMENT || "development"];
 
 export const getAgents = async (req: Request, res: Response) => {
   const desde = Number(req.query.desde) || 0;
@@ -71,42 +78,57 @@ export const getAgent = async (req: Request, res: Response) => {
 
 export const createAgent = async (req: CustomRequest, res: Response) => {
   try {
-    const body = req.body;
-
-    const agentInput = body;
-    const idAgent = req.uid;
+    const { body } = req;
 
     const existingAgentCode = await AgentModel.findOne({
-      agentCode: agentInput.agentCode,
+      agentCode: body.agentCode,
     });
 
     if (existingAgentCode) {
       return res.status(409).json({
         ok: false,
-        msg: "The PHP Code already exists.",
+        msg: "The agent code already exists.",
       });
     }
 
-    const existingEmail = await AgentModel.findOne({ email: agentInput.email });
+    const existingEmail = await AgentModel.findOne({ email: body.email });
 
     if (existingEmail) {
       return res.status(409).json({
         ok: false,
-        msg: "Email already in agent.",
+        msg: "Email already associated with an agent.",
       });
     }
 
     // Create the agent
     const newAgent = new AgentModel({
-      agent: idAgent,
+      agent: req.uid,
       ...body,
     });
 
     // Encrypt Password
     const salt = bcrypt.genSaltSync();
-    newAgent.password = bcrypt.hashSync(agentInput.password, salt);
+    newAgent.password = bcrypt.hashSync(body.password, salt);
 
     const agentSaved = await newAgent.save();
+
+    const { firstName, lastName, email, agentCode } = agentSaved;
+    const name = `${firstName} ${lastName}`;
+
+    const templatePath = path.join(__dirname, "../templates/welcome.html");
+    const emailTemplate = fs.readFileSync(templatePath, "utf8");
+
+    const personalizedEmail = emailTemplate
+      .replace("{{name}}", name)
+      .replace("{{linkApp}}", environment.linkApp)
+      .replace("{{agentCode}}", agentCode.toString())
+      .replace("{{password}}", body.password);
+
+    sendEmail(
+      email,
+      AppMessages.WELCOME_TO_OUR_PLATFORM_TBH,
+      personalizedEmail
+    );
 
     res.status(201).json({
       ok: true,
@@ -118,7 +140,7 @@ export const createAgent = async (req: CustomRequest, res: Response) => {
     res.status(500).json({
       ok: false,
       error,
-      msg: "Error occurred while creating the agent.",
+      msg: "An error occurred while creating the agent.",
     });
   }
 };
