@@ -46,13 +46,14 @@ export const createProspects = async (req: CustomRequest, res: Response) => {
 
     res.json({
       ok: true,
-      msg: "Hola",
+      msg: "Prospect created",
       prospect,
     });
   } catch (error) {
     res.status(500).json({
       ok: false,
       error,
+      msg: "An error occurred while creating the prospect.",
     });
   }
 };

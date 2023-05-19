@@ -8,6 +8,7 @@ interface IProspect {
   email: string;
   dateBirth: Date;
   phone: string;
+  state?: string;
   coupleName?: string;
   couplesOccupation?: string;
   coupleIncome?: string;
@@ -33,6 +34,7 @@ export const ProspectSchema: Schema = new Schema<IProspect>({
   email: { type: String, required: true, unique: true },
   dateBirth: { type: Date, required: true },
   phone: { type: String, required: true },
+  state: { type: String },
   coupleName: { type: String },
   couplesOccupation: { type: String },
   coupleIncome: { type: String },
