@@ -18,6 +18,7 @@ const config: any = {
     defaultFilePath: "../uploads/no-file.jpg",
     verifyLink: "http://localhost:4200/#/new-password/",
     linkApp: "http://localhost:4200/",
+    emailCreateProspect: process.env.EMAIL_CREATE_PROSPECT,
   },
   production: {
     database: {
@@ -36,6 +37,7 @@ const config: any = {
     defaultFilePath: "../uploads/no-file.jpg",
     verifyLink: process.env.VERIFY_LINK,
     linkApp: process.env.LINK_APP,
+    emailCreateProspect: process.env.EMAIL_CREATE_PROSPECT,
   },
 };
 

@@ -1,6 +1,13 @@
+import fs from "fs";
 import { Request, Response } from "express";
 import ProspectModel from "../models/prospect.model";
 import { CustomRequest } from "../middlewares/validate-jwt";
+import path from "path";
+import sendEmail from "../helpers/email";
+import AppMessages from "../constants/messages.enum";
+import config from "../config/config";
+
+const environment = config[process.env.ENVIRONMENT || "development"];
 
 export const getProspects = async (req: Request, res: Response) => {
   try {
@@ -25,6 +32,7 @@ export const createProspects = async (req: CustomRequest, res: Response) => {
   const body = req.body;
   const prospectInput = body;
   const uid = req.uid;
+  const emailTo = environment.emailCreateProspect;
   try {
     const existingProspectEmail = await ProspectModel.findOne({
       email: prospectInput.email,
@@ -43,6 +51,19 @@ export const createProspects = async (req: CustomRequest, res: Response) => {
     });
 
     const prospect = await newProspect.save();
+
+    const { firstName, lastName, email } = prospect;
+    const name = `${firstName} ${lastName}`;
+
+    const templatePath = path.join(__dirname, "../templates/prospect.html");
+    const emailTemplate = fs.readFileSync(templatePath, "utf8");
+
+    const personalizedEmail = emailTemplate
+      .replace("{{name}}", name)
+      .replace("{{linkApp}}", environment.linkApp)
+      .replace("{{email}}", email);
+
+    sendEmail(emailTo, AppMessages.NEW_PROSPECT, personalizedEmail);
 
     res.json({
       ok: true,
