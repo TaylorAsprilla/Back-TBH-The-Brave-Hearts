@@ -50,7 +50,7 @@ export const ProspectSchema: Schema = new Schema<IProspect>({
   observations: { type: String },
   status: {
     type: String,
-    default: "New",
+    default: "NEW",
   },
   active: { type: Boolean, required: true, default: true },
   createdAt: {

@@ -8,13 +8,15 @@ import validateFields from "../middlewares/validate-fields";
 import {
   createProspects,
   deleteProspects,
+  getProspect,
   getProspects,
   updateProspects,
 } from "../controllers/prospects.controllers";
 
 const router = Router();
 
-router.get("/", getProspects);
+router.get("/", validateJWT, getProspects);
+router.get("/:id", validateJWT, getProspect);
 router.post(
   "/",
   validateJWT,
