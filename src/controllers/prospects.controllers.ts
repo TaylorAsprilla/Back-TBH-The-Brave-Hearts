@@ -13,7 +13,7 @@ export const getProspects = async (req: Request, res: Response) => {
   try {
     const prospects = await ProspectModel.find().populate(
       "agent",
-      "name email"
+      "firstName lastName agentCode email"
     );
 
     res.json({

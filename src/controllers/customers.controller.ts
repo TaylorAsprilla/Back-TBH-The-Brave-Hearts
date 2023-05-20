@@ -6,7 +6,7 @@ export const getCustomers = async (req: Request, res: Response) => {
   try {
     const customers = await CustomerModel.find().populate(
       "agent",
-      "name email"
+      "firstName lastName agentCode email"
     );
 
     res.json({

@@ -21,6 +21,7 @@ interface IProspect {
   properties?: string;
   otherIncome?: string;
   observations?: string;
+  status: string;
   active?: boolean;
   createdAt?: Date;
   agent: Types.ObjectId;
@@ -47,6 +48,10 @@ export const ProspectSchema: Schema = new Schema<IProspect>({
   properties: { type: String },
   otherIncome: { type: String },
   observations: { type: String },
+  status: {
+    type: String,
+    default: "New",
+  },
   active: { type: Boolean, required: true, default: true },
   createdAt: {
     type: Date,
