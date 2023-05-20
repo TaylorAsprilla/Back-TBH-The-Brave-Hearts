@@ -151,8 +151,6 @@ export const updateAgent = async (req: Request, res: Response) => {
     const agentDB = await AgentModel.findById(uid);
     const { password, email, ...fields } = req.body;
 
-    console.log("fields", fields);
-
     if (!agentDB) {
       return res.status(404).json({
         ok: false,

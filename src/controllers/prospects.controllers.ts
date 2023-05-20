@@ -28,6 +28,26 @@ export const getProspects = async (req: Request, res: Response) => {
   }
 };
 
+export const getProspect = async (req: Request, res: Response) => {
+  try {
+    const prospectId = req.params.id;
+    const prospect = await ProspectModel.findById(prospectId).populate(
+      "agent",
+      "firstName lastName agentCode email"
+    );
+
+    res.json({
+      ok: true,
+      prospect,
+    });
+  } catch (error) {
+    res.status(500).json({
+      ok: false,
+      error,
+    });
+  }
+};
+
 export const createProspects = async (req: CustomRequest, res: Response) => {
   const body = req.body;
   const prospectInput = body;
