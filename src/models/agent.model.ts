@@ -1,5 +1,4 @@
-import autoIncrement from "mongoose-auto-increment";
-import mongoose, { Document, Model, Schema, Types, model } from "mongoose";
+import { Document, Model, Schema, Types, model } from "mongoose";
 
 interface IAgent extends Document {
   agentCode: number;
