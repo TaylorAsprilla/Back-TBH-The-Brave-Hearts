@@ -11,7 +11,7 @@ interface ICustomer extends Document {
   zipCode?: string;
   phone: string;
   email: string;
-  ss: string;
+  documentNumber: string;
   documentType: string;
   maritalStatus: string;
   dateBirth: Date;
@@ -45,7 +45,7 @@ const CustomerSchema: Schema<ICustomer> = new Schema<ICustomer>({
   email: { type: String, required: true, unique: true },
   maritalStatus: { type: String, required: true },
   dateBirth: { type: Date, required: true },
-  ss: { type: String, required: true },
+  documentNumber: { type: String, required: true },
   countryBirth: { type: String, required: true },
   cityBirth: { type: String, required: true },
   gender: { type: String, required: true },
