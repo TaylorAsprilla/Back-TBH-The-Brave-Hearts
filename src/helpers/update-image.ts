@@ -21,7 +21,7 @@ const updateImage = async (id: string, type: string, name: string) => {
         return false;
       }
 
-      pathViejo = `./src/uploads/agents/${agent.img}`;
+      pathViejo = `./src/public/agents/${agent.img}`;
 
       await deleteImagen(pathViejo);
 
@@ -38,7 +38,7 @@ const updateImage = async (id: string, type: string, name: string) => {
         return false;
       }
 
-      pathViejo = `./src/uploads/customers/${customer.img}`;
+      pathViejo = `./src/public/customers/${customer.img}`;
       await deleteImagen(pathViejo);
 
       customer.img = name;

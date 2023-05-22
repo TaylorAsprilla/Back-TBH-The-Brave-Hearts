@@ -10,7 +10,7 @@ import {
   updateCustomers,
 } from "../controllers/customers.controller";
 import validateJWT from "../middlewares/validate-jwt";
-import { body } from "express-validator";
+import { body, check } from "express-validator";
 import validateFields from "../middlewares/validate-fields";
 
 const router = Router();
@@ -21,7 +21,7 @@ router.post(
   "/",
   validateJWT,
   [
-    body("email", "Email is required").not().isEmpty().isEmail(),
+    check("email", "Email is required").not().isEmpty().isEmail(),
     validateFields,
   ],
   createCustomers

@@ -46,12 +46,22 @@ export const createCustomers = async (req: CustomRequest, res: Response) => {
 
   try {
     const existingCustomer = await CustomerModel.findOne({
-      greenCard: customerInput.greenCard,
+      documentNumber: customerInput.documentNumber,
     });
     if (existingCustomer) {
       return res.status(409).json({
         ok: false,
-        msg: "The customer already exists with that green card.",
+        msg: "The customer already exists with that document number.",
+      });
+    }
+
+    const existingEmail = await CustomerModel.findOne({
+      email: customerInput.email,
+    });
+    if (existingEmail) {
+      return res.status(409).json({
+        ok: false,
+        msg: `The customer already exists with this email, ${customerInput.email}`,
       });
     }
 
@@ -65,7 +75,7 @@ export const createCustomers = async (req: CustomRequest, res: Response) => {
 
     res.json({
       ok: true,
-      msg: "Hola",
+      msg: "Client created",
       customers,
     });
   } catch (error) {
