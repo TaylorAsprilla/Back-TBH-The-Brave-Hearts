@@ -21,7 +21,10 @@ router.post(
   "/",
   validateJWT,
   [
-    check("email", "Email is required").not().isEmpty().isEmail(),
+    check("customer.email", "Email is required Customer")
+      .not()
+      .isEmpty()
+      .isEmail(),
     validateFields,
   ],
   createCustomers

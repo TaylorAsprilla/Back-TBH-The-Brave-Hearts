@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import CustomerModel from "../models/customer.model";
 import { CustomRequest } from "../middlewares/validate-jwt";
+import PolicyModel from "../models/policy.model";
 
 export const getCustomers = async (req: Request, res: Response) => {
   try {
@@ -41,7 +42,8 @@ export const getAllCustomers = async (req: Request, res: Response) => {
 
 export const createCustomers = async (req: CustomRequest, res: Response) => {
   const body = req.body;
-  const customerInput = body;
+  const customerInput = body.customer;
+  const policyInput = body.policy;
   const uid = req.uid;
 
   try {
@@ -68,15 +70,24 @@ export const createCustomers = async (req: CustomRequest, res: Response) => {
     // Create the customer
     const newCustomer = new CustomerModel({
       agent: uid,
-      ...body,
+      ...customerInput,
     });
 
-    const customers = await newCustomer.save();
+    const customer = await newCustomer.save();
+
+    const newPolicy = new PolicyModel({
+      agent: uid,
+      customer: customer._id,
+      ...policyInput,
+    });
+
+    const policy = await newPolicy.save();
 
     res.json({
       ok: true,
       msg: "Client created",
-      customers,
+      customer,
+      policy,
     });
   } catch (error) {
     res.status(500).json({
