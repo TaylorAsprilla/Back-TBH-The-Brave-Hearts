@@ -9,9 +9,9 @@ interface IProspect {
   dateBirth: Date;
   phone: string;
   state?: string;
-  coupleName?: string;
-  couplesOccupation?: string;
-  coupleIncome?: string;
+  partner?: string;
+  occupation?: string;
+  householdIncome?: string;
   children?: string;
   childrenAge?: string;
   childrenOccupation?: string;
@@ -36,9 +36,9 @@ export const ProspectSchema: Schema = new Schema<IProspect>({
   dateBirth: { type: Date, required: true },
   phone: { type: String, required: true },
   state: { type: String },
-  coupleName: { type: String },
-  couplesOccupation: { type: String },
-  coupleIncome: { type: String },
+  partner: { type: String },
+  occupation: { type: String },
+  householdIncome: { type: String },
   children: { type: String },
   childrenAge: { type: String },
   childrenOccupation: { type: String },

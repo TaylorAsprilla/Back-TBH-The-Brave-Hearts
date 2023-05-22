@@ -11,7 +11,7 @@ export const getPolicy = async (req: Request, res: Response) => {
 
     res.json({
       ok: true,
-      customers: policy,
+      policy,
     });
   } catch (error) {
     res.status(500).json({

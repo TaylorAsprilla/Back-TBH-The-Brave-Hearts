@@ -40,6 +40,32 @@ export const getAllCustomers = async (req: Request, res: Response) => {
   }
 };
 
+export const getCustomer = async (req: Request, res: Response) => {
+  try {
+    const customerId = req.params.id;
+    const customer = await CustomerModel.findById(customerId).populate(
+      "agent",
+      "firstName lastName agentCode email"
+    );
+    if (customer) {
+      res.json({
+        ok: true,
+        customer,
+      });
+    } else {
+      return res.status(404).json({
+        ok: false,
+        msg: "Customer not found.",
+      });
+    }
+  } catch (error) {
+    res.status(500).json({
+      ok: false,
+      error,
+    });
+  }
+};
+
 export const createCustomers = async (req: CustomRequest, res: Response) => {
   const body = req.body;
   const customerInput = body.customer;

@@ -6,6 +6,7 @@ import {
   createCustomers,
   deleteCustomers,
   getAllCustomers,
+  getCustomer,
   getCustomers,
   updateCustomers,
 } from "../controllers/customers.controller";
@@ -17,6 +18,7 @@ const router = Router();
 
 router.get("/", validateJWT, getCustomers);
 router.get("/all", validateJWT, getAllCustomers);
+router.get("/:id", validateJWT, getCustomer);
 router.post(
   "/",
   validateJWT,
