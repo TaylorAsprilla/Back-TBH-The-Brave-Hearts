@@ -77,7 +77,7 @@ interface IPolicy extends Document {
     notes?: string;
   };
   referrals?: IReferral[];
-  document: IDocument;
+  document?: IDocument;
   active?: boolean;
   createdAt?: Date;
   agent: Types.ObjectId;
@@ -86,16 +86,16 @@ interface IPolicy extends Document {
 
 const PolicySchema = new Schema<IPolicy>({
   carrier: { type: String, required: true },
-  policyType: { type: String, required: true },
+  policyType: { type: String, required: false },
   monthly: { type: String, required: true },
   faceAmount: { type: String, required: true },
   beneficiaries: { type: [Object], required: false },
   contingentBeneficiary: { type: [Object], required: false },
-  medical: { type: Object, required: true },
+  medical: { type: Object, required: false },
   additionalQuestions: { type: Object, required: true },
   bankInformation: { type: Object, required: true },
   referrals: { type: [Object], required: false },
-  document: { type: Object, required: true },
+  document: { type: Object, required: false },
   active: { type: Boolean, required: true, default: true },
   createdAt: {
     type: Date,

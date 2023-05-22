@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import CustomerModel from "../models/customer.model";
 import { CustomRequest } from "../middlewares/validate-jwt";
+import PolicyModel from "../models/policy.model";
 
 export const getCustomers = async (req: Request, res: Response) => {
   try {
@@ -41,32 +42,52 @@ export const getAllCustomers = async (req: Request, res: Response) => {
 
 export const createCustomers = async (req: CustomRequest, res: Response) => {
   const body = req.body;
-  const customerInput = body;
+  const customerInput = body.customer;
+  const policyInput = body.policy;
   const uid = req.uid;
 
   try {
     const existingCustomer = await CustomerModel.findOne({
-      greenCard: customerInput.greenCard,
+      documentNumber: customerInput.documentNumber,
     });
     if (existingCustomer) {
       return res.status(409).json({
         ok: false,
-        msg: "The customer already exists with that green card.",
+        msg: "The customer already exists with that document number.",
+      });
+    }
+
+    const existingEmail = await CustomerModel.findOne({
+      email: customerInput.email,
+    });
+    if (existingEmail) {
+      return res.status(409).json({
+        ok: false,
+        msg: `The customer already exists with this email, ${customerInput.email}`,
       });
     }
 
     // Create the customer
     const newCustomer = new CustomerModel({
       agent: uid,
-      ...body,
+      ...customerInput,
     });
 
-    const customers = await newCustomer.save();
+    const customer = await newCustomer.save();
+
+    const newPolicy = new PolicyModel({
+      agent: uid,
+      customer: customer._id,
+      ...policyInput,
+    });
+
+    const policy = await newPolicy.save();
 
     res.json({
       ok: true,
-      msg: "Hola",
-      customers,
+      msg: "Client created",
+      customer,
+      policy,
     });
   } catch (error) {
     res.status(500).json({

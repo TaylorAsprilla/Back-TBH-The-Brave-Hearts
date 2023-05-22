@@ -14,6 +14,7 @@ import {
 import { check } from "express-validator";
 import validateFields from "../middlewares/validate-fields";
 import validateJWT from "../middlewares/validate-jwt";
+import uploadFile from "../helpers/upload-file";
 
 const router = Router();
 
@@ -23,6 +24,7 @@ router.get("/:id", validateJWT, getAgent);
 router.post(
   "/",
   validateJWT,
+  uploadFile.single("myfile"),
   [
     check("firstName", "First Name is required").not().isEmpty(),
     check("lastName", "Last name is required").not().isEmpty(),

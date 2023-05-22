@@ -8,66 +8,66 @@ import config from "../config/config";
 
 const environment = config[process.env.ENVIRONMENT || "development"];
 
-export async function fileUpload(req: Request, res: Response) {
-  const type = req.params.type;
-  const id = req.params.id;
+// export async function fileUpload(req: Request, res: Response) {
+//   const type = req.params.type;
+//   const id = req.params.id;
 
-  const validTypes = ["customers", "agents"];
-  const validExtensions = ["png", "jpg", "jpeg", "pdf"];
+//   const validTypes = ["customers", "agents"];
+//   const validExtensions = ["png", "jpg", "jpeg", "pdf"];
 
-  if (!req.files || Object.keys(req.files).length === 0) {
-    return res.status(400).json({ ok: false, msg: "No files were uploaded." });
-  }
+//   if (!req.files || Object.keys(req.files).length === 0) {
+//     return res.status(400).json({ ok: false, msg: "No files were uploaded." });
+//   }
 
-  const file = req.files?.image as UploadedFile;
+//   const file = req.files?.image as UploadedFile;
 
-  if (!file) {
-    return res.status(400).json({
-      ok: false,
-      msg: "No file was uploaded.",
-    });
-  }
+//   if (!file) {
+//     return res.status(400).json({
+//       ok: false,
+//       msg: "No file was uploaded.",
+//     });
+//   }
 
-  const cutName = file.name.split(".");
-  const fileExtension = cutName[cutName.length - 1].toLowerCase(); // Convertir la extensión a minúsculas
+//   const cutName = file.name.split(".");
+//   const fileExtension = cutName[cutName.length - 1].toLowerCase(); // Convertir la extensión a minúsculas
 
-  if (!validExtensions.includes(fileExtension)) {
-    return res.status(400).json({
-      ok: false,
-      msg: "Not a valid extension",
-    });
-  }
+//   if (!validExtensions.includes(fileExtension)) {
+//     return res.status(400).json({
+//       ok: false,
+//       msg: "Not a valid extension",
+//     });
+//   }
 
-  if (!validTypes.includes(type)) {
-    return res.status(400).json({
-      ok: false,
-      msg: "The selected type is not agents or customers",
-    });
-  }
+//   if (!validTypes.includes(type)) {
+//     return res.status(400).json({
+//       ok: false,
+//       msg: "The selected type is not agents or customers",
+//     });
+//   }
 
-  const fileName = `${uuidv4()}.${fileExtension}`;
+//   const fileName = `${uuidv4()}.${fileExtension}`;
 
-  const path = `./src/uploads/${type}/${fileName}`;
+//   const path = `./src/public/${type}/${fileName}`;
 
-  try {
-    await file.mv(path);
+//   try {
+//     await file.mv(path);
 
-    // Actualizar la base de datos
-    await updateImage(id, type, fileName);
+//     // Actualizar la base de datos
+//     await updateImage(id, type, fileName);
 
-    res.json({
-      ok: true,
-      fileName,
-      msg: "File uploaded!",
-    });
-  } catch (err) {
-    console.log(err);
-    res.status(500).json({
-      ok: false,
-      msg: "Error moving file",
-    });
-  }
-}
+//     res.json({
+//       ok: true,
+//       fileName,
+//       msg: "File uploaded!",
+//     });
+//   } catch (err) {
+//     console.log(err);
+//     res.status(500).json({
+//       ok: false,
+//       msg: "Error moving file",
+//     });
+//   }
+// }
 
 export async function returnFile(req: Request, res: Response) {
   const type = req.params.type;

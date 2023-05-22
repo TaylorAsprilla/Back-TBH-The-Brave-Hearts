@@ -118,7 +118,7 @@ export const forgotPassword = async (req: Request, res: Response) => {
   } catch (error) {
     res.status(500).json({
       ok: false,
-      msg: AppMessages.TALK_TO_THE_ADMINISTRATOS,
+      msg: AppMessages.TALK_TO_THE_ADMINISTRATORS,
       error,
     });
   }
@@ -162,7 +162,7 @@ export const createNewPassword = async (req: Request, res: Response) => {
   } catch (error) {
     res.status(500).json({
       ok: false,
-      msg: AppMessages.TALK_TO_THE_ADMINISTRATOS,
+      msg: AppMessages.TALK_TO_THE_ADMINISTRATORS,
       error,
     });
   }
