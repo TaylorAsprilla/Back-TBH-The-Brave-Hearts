@@ -22,4 +22,3 @@ artifacts:
     - package.json
     - package-lock.json
     - "dist/**/*"
-  type: zip
