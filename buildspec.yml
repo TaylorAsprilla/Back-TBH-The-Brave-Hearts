@@ -17,8 +17,9 @@ phases:
       - cp -R src/template dist/
 
 artifacts:
-  type: zip
+  name: MyArtifact
   files:
     - package.json
     - package-lock.json
     - "dist/**/*"
+  artifactType: zip
