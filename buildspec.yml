@@ -16,8 +16,9 @@ phases:
       - echo Copying 'Templates' folder to 'dist'...
 
 artifacts:
-  name: ArtifactTBH
   files:
-    - package.json
-    - package-lock.json
     - "dist/**/*"
+    - "package.json"
+    - "package-lock.json"
+    - "README.md"
+  discard-paths: yes
