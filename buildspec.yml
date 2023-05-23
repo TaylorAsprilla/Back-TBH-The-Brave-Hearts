@@ -14,11 +14,12 @@ phases:
       - echo Removing unnecessary files...
       - rm -rf node_modules/
       - echo Copying 'Templates' folder to 'dist'...
-      - cp -R src/template dist/
+      - cp -R template dist/
 
 artifacts:
-  type: zip
+  name: MyArtifact
   files:
     - package.json
     - package-lock.json
     - "dist/**/*"
+  artifactType: zip
