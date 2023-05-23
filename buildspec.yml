@@ -21,4 +21,4 @@ artifacts:
     - "package.json"
     - "package-lock.json"
     - "README.md"
-  discard-paths: yes
+  discard-paths: no
