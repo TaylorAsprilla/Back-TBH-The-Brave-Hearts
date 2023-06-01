@@ -54,10 +54,6 @@ class Server {
       res.status(200).json({ msg: "PHP Agency" })
     );
 
-    this.app.use((req, res, next) => {
-      const error = new Error("Not found");
-      res.status(404).json({ msg: error.message });
-    });
     // Carpeta pública
     this.app.use("/uploads", express.static(path.resolve("uploads")));
   }
