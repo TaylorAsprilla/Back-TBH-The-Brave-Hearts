@@ -4,10 +4,15 @@ import { CustomRequest } from "../middlewares/validate-jwt";
 
 export const getPolicy = async (req: Request, res: Response) => {
   try {
-    const policy = await PolicyModel.find().populate(
-      "agent",
-      "firstName lastName agentCode email"
-    );
+    const policy = await PolicyModel.find()
+      .populate({
+        path: "agent",
+        select: "firstName lastName agentCode email",
+      })
+      .populate({
+        path: "customer",
+        select: "firstName lastName email",
+      });
 
     res.json({
       ok: true,
