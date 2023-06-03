@@ -86,7 +86,7 @@ interface IPolicy extends Document {
 
 const PolicySchema = new Schema<IPolicy>({
   carrier: { type: String, required: true },
-  policyType: { type: String, required: false },
+  policyType: { type: String, required: true },
   monthly: { type: String, required: true },
   faceAmount: { type: String, required: true },
   beneficiaries: { type: [Object], required: false },
