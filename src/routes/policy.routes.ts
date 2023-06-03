@@ -3,6 +3,7 @@ router: /api/policy
 */
 import { Router } from "express";
 import validateJWT from "../middlewares/validate-jwt";
+import expressFileUpload from "express-fileupload";
 import {
   createPolicy,
   deletePolicy,
@@ -11,6 +12,7 @@ import {
 } from "../controllers/policy.controllers";
 
 const router = Router();
+router.use(expressFileUpload());
 
 router.get("/", validateJWT, getPolicy);
 
