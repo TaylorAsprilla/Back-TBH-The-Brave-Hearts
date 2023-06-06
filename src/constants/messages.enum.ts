@@ -14,6 +14,7 @@ enum AppMessages {
   TALK_TO_THE_ADMINISTRATORS = "Talk to the administrators",
   CHECK_YOUR_EMAIL_FOR_THE_LINK_TO_RESET_YOUR_PASSWORD = "Check your email for the link to reset your password",
   NEW_PROSPECT = "New Prospect",
+  NEW_POLICY_REGISTERED = "New policy registered",
   WELCOME_TO_OUR_PLATFORM_TBH = "Welcome to our platform TBH",
 }
 

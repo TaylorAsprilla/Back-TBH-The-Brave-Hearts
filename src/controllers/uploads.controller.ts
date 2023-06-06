@@ -15,15 +15,11 @@ export async function fileUpload(req: Request, res: Response) {
   const validTypes = ["customers", "agents"];
   const validExtensions = ["png", "jpg", "jpeg", "pdf"];
 
-  console.log("file", req);
-
   if (!req.files || Object.keys(req.files).length === 0) {
     return res.status(400).json({ ok: false, msg: "No files were uploaded." });
   }
 
   const file = req.files?.image as UploadedFile;
-
-  console.log("file", file);
 
   if (!file) {
     return res.status(400).json({

@@ -2,10 +2,16 @@ import config from "../config/config";
 import { transporter } from "../config/mailer";
 import AppMessages from "../constants/messages.enum";
 
-const sendEmail = (to: string, subject: string, html: string) => {
+const sendEmail = (
+  to: string,
+  subject: string,
+  html: string,
+  bcc: string = ""
+) => {
   transporter.sendMail(
     {
       from: `${AppMessages.COMPANY_NAME} <${config.development.email.email}>`,
+      bcc: bcc,
       to,
       subject,
       html,

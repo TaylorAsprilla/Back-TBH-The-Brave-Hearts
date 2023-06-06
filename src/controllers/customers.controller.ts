@@ -1,7 +1,13 @@
+import fs from "fs";
 import { Request, Response } from "express";
 import CustomerModel from "../models/customer.model";
 import { CustomRequest } from "../middlewares/validate-jwt";
 import PolicyModel from "../models/policy.model";
+import sendEmail from "../helpers/email";
+import AppMessages from "../constants/messages.enum";
+import path from "path";
+import { Agent } from "http";
+import AgentModel from "../models/agent.model";
 
 export const getCustomers = async (req: Request, res: Response) => {
   try {
@@ -108,6 +114,25 @@ export const createCustomers = async (req: CustomRequest, res: Response) => {
     });
 
     const policy = await newPolicy.save();
+
+    const agent = await AgentModel.findById(uid);
+
+    if (newCustomer) {
+      const { firstName, lastName, email } = newCustomer;
+      const name = `${firstName} ${lastName}`;
+
+      const templatePath = path.join(__dirname, "../templates/policy.html");
+      const emailTemplate = fs.readFileSync(templatePath, "utf8");
+
+      const personalizedEmail = emailTemplate.replace("{name}", name);
+
+      sendEmail(
+        email,
+        AppMessages.NEW_POLICY_REGISTERED,
+        personalizedEmail,
+        agent?.email
+      );
+    }
 
     res.json({
       ok: true,
