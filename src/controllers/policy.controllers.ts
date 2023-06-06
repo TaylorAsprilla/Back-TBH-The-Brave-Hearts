@@ -1,6 +1,15 @@
+import fs from "fs";
 import { Request, Response } from "express";
 import PolicyModel from "../models/policy.model";
 import { CustomRequest } from "../middlewares/validate-jwt";
+import CustomerModel from "../models/customer.model";
+import path from "path";
+import config from "../config/config";
+import sendEmail from "../helpers/email";
+import AppMessages from "../constants/messages.enum";
+import AgentModel from "../models/agent.model";
+
+const environment = config[process.env.ENVIRONMENT || "development"];
 
 export const getPolicy = async (req: Request, res: Response) => {
   try {
@@ -31,13 +40,33 @@ export const createPolicy = async (req: CustomRequest, res: Response) => {
   const uid = req.uid;
 
   try {
-    // Create the customer
     const newPolicy = new PolicyModel({
       agent: uid,
       ...body,
     });
 
     const policy = await newPolicy.save();
+
+    const customer = await CustomerModel.findById(policy.customer);
+    const agent = await AgentModel.findById(uid);
+
+    if (customer) {
+      const { firstName, lastName, email } = customer;
+
+      const name = `${firstName} ${lastName}`;
+
+      const templatePath = path.join(__dirname, "../templates/policy.html");
+      const emailTemplate = fs.readFileSync(templatePath, "utf8");
+
+      const personalizedEmail = emailTemplate.replace("{name}", name);
+
+      sendEmail(
+        email,
+        AppMessages.NEW_POLICY_REGISTERED,
+        personalizedEmail,
+        agent?.email
+      );
+    }
 
     res.json({
       ok: true,
