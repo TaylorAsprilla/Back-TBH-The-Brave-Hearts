@@ -7,6 +7,7 @@ import expressFileUpload from "express-fileupload";
 import {
   createPolicy,
   deletePolicy,
+  getAllPolicy,
   getPolicy,
   updatePolicy,
 } from "../controllers/policy.controllers";
@@ -14,7 +15,8 @@ import {
 const router = Router();
 router.use(expressFileUpload());
 
-router.get("/", validateJWT, getPolicy);
+router.get("/", validateJWT, getAllPolicy);
+router.get("/:id", validateJWT, getPolicy);
 
 router.post("/", validateJWT, createPolicy);
 router.put("/:id", validateJWT, updatePolicy);

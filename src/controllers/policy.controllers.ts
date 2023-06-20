@@ -11,7 +11,7 @@ import AgentModel from "../models/agent.model";
 
 const environment = config[process.env.ENVIRONMENT || "development"];
 
-export const getPolicy = async (req: Request, res: Response) => {
+export const getAllPolicy = async (req: Request, res: Response) => {
   try {
     const policy = await PolicyModel.find()
       .populate({
@@ -27,6 +27,37 @@ export const getPolicy = async (req: Request, res: Response) => {
       ok: true,
       policy,
     });
+  } catch (error) {
+    res.status(500).json({
+      ok: false,
+      error,
+    });
+  }
+};
+
+export const getPolicy = async (req: Request, res: Response) => {
+  try {
+    const policyId = req.params.id;
+    const policy = await PolicyModel.findById(policyId)
+      .populate({
+        path: "agent",
+        select: "firstName lastName agentCode email",
+      })
+      .populate({
+        path: "customer",
+        select: "firstName lastName email",
+      });
+    if (policy) {
+      res.json({
+        ok: true,
+        policy,
+      });
+    } else {
+      return res.status(404).json({
+        ok: false,
+        msg: "Policy not found.",
+      });
+    }
   } catch (error) {
     res.status(500).json({
       ok: false,

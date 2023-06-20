@@ -6,7 +6,6 @@ import PolicyModel from "../models/policy.model";
 import sendEmail from "../helpers/email";
 import AppMessages from "../constants/messages.enum";
 import path from "path";
-import { Agent } from "http";
 import AgentModel from "../models/agent.model";
 
 export const getCustomers = async (req: Request, res: Response) => {
