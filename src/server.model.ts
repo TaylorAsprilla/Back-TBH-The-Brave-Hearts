@@ -9,6 +9,7 @@ import prospectRoutes from "./routes/prospect.routes";
 import uploadsRoutes from "./routes/uploads.routes";
 import statesRoutes from "./routes/state.routes";
 import policyRoutes from "./routes/policy.routes";
+import searchRoutes from "./routes/search.routes";
 
 import config from "./config/config";
 import path from "path";
@@ -25,6 +26,7 @@ class Server {
     uploads: "/api/uploads",
     states: "/api/states",
     policy: "/api/policy",
+    search: "/api/search",
   };
 
   constructor() {
@@ -67,6 +69,7 @@ class Server {
     this.app.use(this.apiPaths.uploads, uploadsRoutes);
     this.app.use(this.apiPaths.states, statesRoutes);
     this.app.use(this.apiPaths.policy, policyRoutes);
+    this.app.use(this.apiPaths.search, searchRoutes);
   }
 
   listen(): void {
