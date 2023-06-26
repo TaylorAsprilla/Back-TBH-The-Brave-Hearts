@@ -9,9 +9,29 @@ import config from "../config/config";
 
 const environment = config[process.env.ENVIRONMENT || "development"];
 
-export const getProspects = async (req: Request, res: Response) => {
+export const getAllProspects = async (req: Request, res: Response) => {
   try {
     const prospects = await ProspectModel.find().populate(
+      "agent",
+      "firstName lastName agentCode email"
+    );
+
+    res.json({
+      ok: true,
+      prospects,
+    });
+  } catch (error) {
+    res.status(500).json({
+      ok: false,
+      error,
+    });
+  }
+};
+
+export const getAllProspectsForAgent = async (req: Request, res: Response) => {
+  try {
+    const agentId = req.params.id;
+    const prospects = await ProspectModel.find({ agent: agentId }).populate(
       "agent",
       "firstName lastName agentCode email"
     );

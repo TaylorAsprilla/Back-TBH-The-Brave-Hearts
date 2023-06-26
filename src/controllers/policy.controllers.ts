@@ -35,6 +35,32 @@ export const getAllPolicy = async (req: Request, res: Response) => {
   }
 };
 
+export const getAllPoliciesForAgent = async (req: Request, res: Response) => {
+  try {
+    const agentId = req.params.id;
+
+    const policy = await PolicyModel.find({ agent: agentId })
+      .populate({
+        path: "agent",
+        select: "firstName lastName agentCode email",
+      })
+      .populate({
+        path: "customer",
+        select: "firstName lastName email",
+      });
+
+    res.json({
+      ok: true,
+      policy,
+    });
+  } catch (error) {
+    res.status(500).json({
+      ok: false,
+      error,
+    });
+  }
+};
+
 export const getPolicy = async (req: Request, res: Response) => {
   try {
     const policyId = req.params.id;
