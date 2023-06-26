@@ -7,6 +7,7 @@ import expressFileUpload from "express-fileupload";
 import {
   createPolicy,
   deletePolicy,
+  getAllPoliciesForAgent,
   getAllPolicy,
   getPolicy,
   updatePolicy,
@@ -17,6 +18,7 @@ router.use(expressFileUpload());
 
 router.get("/", validateJWT, getAllPolicy);
 router.get("/:id", validateJWT, getPolicy);
+router.get("/all/:id", validateJWT, getAllPoliciesForAgent);
 
 router.post("/", validateJWT, createPolicy);
 router.put("/:id", validateJWT, updatePolicy);

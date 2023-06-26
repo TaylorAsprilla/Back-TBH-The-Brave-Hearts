@@ -9,14 +9,16 @@ import {
   createProspects,
   deleteProspects,
   getProspect,
-  getProspects,
+  getAllProspects,
   updateProspects,
+  getAllProspectsForAgent,
 } from "../controllers/prospects.controllers";
 
 const router = Router();
 
-router.get("/", validateJWT, getProspects);
+router.get("/", validateJWT, getAllProspects);
 router.get("/:id", validateJWT, getProspect);
+router.get("/all/:id", validateJWT, getAllProspectsForAgent);
 router.post(
   "/",
   validateJWT,

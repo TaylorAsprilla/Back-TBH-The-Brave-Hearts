@@ -6,6 +6,7 @@ import {
   createCustomers,
   deleteCustomers,
   getAllCustomers,
+  getAllCustomersForAgent,
   getCustomer,
   getCustomers,
   updateCustomers,
@@ -18,6 +19,7 @@ const router = Router();
 
 router.get("/", validateJWT, getCustomers);
 router.get("/all", validateJWT, getAllCustomers);
+router.get("/all/:id", validateJWT, getAllCustomersForAgent);
 router.get("/:id", validateJWT, getCustomer);
 router.post(
   "/",

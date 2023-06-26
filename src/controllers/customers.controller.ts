@@ -8,6 +8,47 @@ import AppMessages from "../constants/messages.enum";
 import path from "path";
 import AgentModel from "../models/agent.model";
 
+export const getAllCustomers = async (req: Request, res: Response) => {
+  try {
+    const customers = await CustomerModel.find().populate(
+      "agent",
+      "firstName lastName agentCode email"
+    );
+
+    res.json({
+      ok: true,
+      customers,
+    });
+  } catch (error) {
+    res.status(500).json({
+      ok: false,
+      error,
+      msg: "Error occurred while getting the customers.",
+    });
+  }
+};
+
+export const getAllCustomersForAgent = async (req: Request, res: Response) => {
+  try {
+    const agentId = req.params.id;
+    const customers = await CustomerModel.find({ agent: agentId }).populate(
+      "agent",
+      "firstName lastName agentCode email"
+    );
+
+    res.json({
+      ok: true,
+      customers,
+    });
+  } catch (error) {
+    res.status(500).json({
+      ok: false,
+      error,
+      msg: "Error occurred while getting the customers.",
+    });
+  }
+};
+
 export const getCustomers = async (req: Request, res: Response) => {
   try {
     const customers = await CustomerModel.find().populate(
@@ -17,23 +58,7 @@ export const getCustomers = async (req: Request, res: Response) => {
 
     res.json({
       ok: true,
-      msg: "Hola",
-      customers,
-    });
-  } catch (error) {
-    res.status(500).json({
-      ok: false,
-      error,
-    });
-  }
-};
 
-export const getAllCustomers = async (req: Request, res: Response) => {
-  try {
-    const customers = await CustomerModel.find({});
-
-    res.json({
-      ok: true,
       customers,
     });
   } catch (error) {
