@@ -16,8 +16,9 @@ const config: any = {
     jwtSecret: process.env.JWT_SECRET,
     jwtSecretReset: process.env.JWT_SECRET_RESET,
     defaultFilePath: "../uploads/no-file.jpg",
-    verifyLink: "http://localhost:4200/#/new-password/",
+    verifyLink: "http://localhost:4200/auth/new-password/",
     linkApp: "http://localhost:4200/",
+    linkProspect: "http://localhost:4200/prospect/add-prospects/",
     emailCreateProspect: process.env.EMAIL_CREATE_PROSPECT,
   },
   production: {
@@ -37,6 +38,7 @@ const config: any = {
     defaultFilePath: "../uploads/no-file.jpg",
     verifyLink: process.env.VERIFY_LINK,
     linkApp: process.env.LINK_APP,
+    linkProspect: process.env.LINK_PROSPECT,
     emailCreateProspect: process.env.EMAIL_CREATE_PROSPECT,
   },
 };
