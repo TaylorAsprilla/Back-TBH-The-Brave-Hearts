@@ -162,7 +162,7 @@ export const createNewPassword = async (req: Request, res: Response) => {
   } catch (error) {
     res.status(500).json({
       ok: false,
-      msg: AppMessages.TALK_TO_THE_ADMINISTRATORS,
+      msg: "This password reset link is only valid for 10 minutes after receiving thel email.",
       error,
     });
   }

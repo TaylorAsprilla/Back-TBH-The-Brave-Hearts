@@ -6,6 +6,7 @@ import path from "path";
 import sendEmail from "../helpers/email";
 import AppMessages from "../constants/messages.enum";
 import config from "../config/config";
+import AgentModel from "../models/agent.model";
 
 const environment = config[process.env.ENVIRONMENT || "development"];
 
@@ -73,14 +74,24 @@ export const createProspects = async (req: CustomRequest, res: Response) => {
   const prospectInput = body;
   const uid = req.uid;
   const emailTo = environment.emailCreateProspect;
+
   try {
     const existingProspectEmail = await ProspectModel.findOne({
       email: prospectInput.email,
     });
+
     if (existingProspectEmail) {
       return res.status(409).json({
         ok: false,
         msg: "The prospect already exists with that email.",
+      });
+    }
+
+    const agent = await AgentModel.findById(uid);
+    if (!agent) {
+      return res.status(409).json({
+        ok: false,
+        msg: "The agent with that identifier does not exist.",
       });
     }
 
@@ -92,7 +103,7 @@ export const createProspects = async (req: CustomRequest, res: Response) => {
 
     const prospect = await newProspect.save();
 
-    const { firstName, lastName, email } = prospect;
+    const { firstName, lastName, email, _id } = prospect;
     const name = `${firstName} ${lastName}`;
 
     const templatePath = path.join(__dirname, "../templates/prospect.html");
@@ -100,10 +111,15 @@ export const createProspects = async (req: CustomRequest, res: Response) => {
 
     const personalizedEmail = emailTemplate
       .replace("{{name}}", name)
-      .replace("{{linkApp}}", environment.linkApp)
+      .replace("{{linkApp}}", `${environment.linkProspect}${_id}`)
       .replace("{{email}}", email);
 
-    sendEmail(emailTo, AppMessages.NEW_PROSPECT, personalizedEmail);
+    sendEmail(
+      agent.email,
+      AppMessages.NEW_PROSPECT,
+      personalizedEmail,
+      emailTo
+    );
 
     res.json({
       ok: true,
