@@ -1,12 +1,13 @@
 import config from "../config/config";
 import { transporter } from "../config/mailer";
 import AppMessages from "../constants/messages.enum";
+const environment = config[process.env.ENVIRONMENT || "development"];
 
 const sendEmail = (
   to: string,
   subject: string,
   html: string,
-  bcc: string = ""
+  bcc: string = environment.emailCreateProspect
 ) => {
   transporter.sendMail(
     {
